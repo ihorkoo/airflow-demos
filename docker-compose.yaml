@@ -1,0 +1,47 @@
+# Airflow для навчання — один контейнер, без Celery і Redis.
+#
+# Що всередині: api-server, scheduler, dag-processor і triggerer запускаються
+# одним процесом (команда standalone). Метадані — SQLite у томі airflow-home.
+# Виконавець за замовчуванням LocalExecutor, тобто задачі йдуть паралельно.
+
+services:
+  airflow:
+    image: apache/airflow:3.3.1
+    container_name: airflow
+    command: standalone
+    ports:
+      - "8080:8080"
+    environment:
+      # не показувати десятки прикладів Airflow — у списку лише свої DAG-и
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      # вхід в UI без логіна і пароля (тільки для локального навчання)
+      AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_ALL_ADMINS: "true"
+
+      # --- Variables (демо 13) -------------------------------------------
+      # Змінна середовища AIRFLOW_VAR_ІМ'Я стає змінною Airflow з іменем
+      # "ім'я". Ті самі значення можна завести в Admin → Variables.
+      AIRFLOW_VAR_TARGET_SCHEMA: "public"
+      AIRFLOW_VAR_ROWS_LIMIT: "500"
+      AIRFLOW_VAR_REPORT_SETTINGS: '{"email": "data@example.com", "retries": 2}'
+
+      # --- Connections (демо 14) -----------------------------------------
+      # Змінна середовища AIRFLOW_CONN_ІМ'Я стає підключенням з conn_id "ім'я".
+      # Зніміть коментар і впишіть свої дані — або заведіть підключення
+      # в Admin → Connections, тоді нічого кодувати не треба.
+      # AIRFLOW_CONN_DEMO_POSTGRES: "postgresql://логін:пароль@хост:5432/база"
+
+    volumes:
+      # усе, що Airflow пише сам (база, логи), лишається в томі й переживає перезапуск
+      - airflow-home:/opt/airflow
+      # DAG-и беруться з папки на комп'ютері — саме сюди студент кладе свої файли
+      - ./dags:/opt/airflow/dags
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/api/v2/version"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 90s
+    restart: unless-stopped
+
+volumes:
+  airflow-home:

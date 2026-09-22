@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Airflow — усе, що він пише сам, живе в docker-томі, але про всяк випадок
+logs/
+airflow.db
+airflow.cfg
+webserver_config.py
+standalone_admin_password.txt
+
+# Локальні секрети
+.env
+*.env
+
+# Редактори і ОС
+.idea/
+.vscode/
+.DS_Store
