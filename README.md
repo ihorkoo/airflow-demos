@@ -1,6 +1,6 @@
 # Airflow 3 — навчальні демо
 
-Невеликий навчальний репозиторій з Apache Airflow **3.3.1**: 15 коротких DAG-ів від «hello world» до Assets, до кожного — конспект українською з поясненням механізму, довідкою параметрів і типовими помилками.
+Невеликий навчальний репозиторій з Apache Airflow **3.3.1**: 16 коротких демо від архітектури і «hello world» до Assets, до кожного — конспект українською з поясненням механізму, довідкою параметрів і типовими помилками.
 
 Середовище мінімальне: один Docker-контейнер, без Celery і Redis.
 
@@ -9,7 +9,9 @@
 ```
 .
 ├── docker-compose.yaml        # один контейнер Airflow (standalone)
-└── dags/                      # 15 демо, по одній папці на тему
+├── docker-compose.md          # розбір compose-файлу рядок за рядком
+└── dags/                      # 16 демо, по одній папці на тему
+    ├── demo_00_architecture/  # з чого складається Airflow 3 — читати першим
     ├── demo_01_basics/
     │   ├── demo_01_basics.py  # сам DAG
     │   └── README.md          # конспект: механізм, довідка параметрів, типові помилки
@@ -21,6 +23,7 @@
 
 | № | Тема | DAG | Конспект |
 |---|---|---|---|
+| 0 | Архітектура Airflow 3 і Task SDK | [demo_00_architecture.py](dags/demo_00_architecture/demo_00_architecture.py) | [README.md](dags/demo_00_architecture/README.md) |
 | 1 | Базовий DAG і TaskFlow | [demo_01_basics.py](dags/demo_01_basics/demo_01_basics.py) | [README.md](dags/demo_01_basics/README.md) |
 | 2 | Класичні оператори | [demo_02_operators.py](dags/demo_02_operators/demo_02_operators.py) | [README.md](dags/demo_02_operators/README.md) |
 | 3 | Форма графа | [demo_03_dependencies.py](dags/demo_03_dependencies/demo_03_dependencies.py) | [README.md](dags/demo_03_dependencies/README.md) |
@@ -71,6 +74,8 @@
 | `provide_context=True` | не потрібен, контекст підставляється сам |
 
 ## Розгортання
+
+Що всередині compose-файлу і як його правити — у [docker-compose.md](docker-compose.md).
 
 ## Що потрібно
 
