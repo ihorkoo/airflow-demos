@@ -8,30 +8,67 @@
 
 ```
 .
-├── docker-compose.yaml   # один контейнер Airflow (standalone)
-├── dags/                 # 15 демо-DAG-ів, по одній темі на файл
-└── docs/                 # конспект до кожного демо, починати з docs/README.md
+├── docker-compose.yaml        # один контейнер Airflow (standalone)
+└── dags/                      # 15 демо, по одній папці на тему
+    ├── demo_01_basics/
+    │   ├── demo_01_basics.py  # сам DAG
+    │   └── README.md          # конспект: механізм, довідка параметрів, типові помилки
+    ├── demo_02_operators/
+    └── ...
 ```
 
-| № | Тема | Файл |
-|---|---|---|
-| 1 | Базовий DAG і TaskFlow | [demo_01_basics.py](dags/demo_01_basics.py) |
-| 2 | Класичні оператори | [demo_02_operators.py](dags/demo_02_operators.py) |
-| 3 | Форма графа | [demo_03_dependencies.py](dags/demo_03_dependencies.py) |
-| 4 | XCom — обмін даними | [demo_04_xcom.py](dags/demo_04_xcom.py) |
-| 5 | Контекст, дати, шаблони | [demo_05_context.py](dags/demo_05_context.py) |
-| 6 | Розгалуження | [demo_06_branching.py](dags/demo_06_branching.py) |
-| 7 | Повтори при помилці | [demo_07_retries.py](dags/demo_07_retries.py) |
-| 8 | Trigger rules | [demo_08_trigger_rules.py](dags/demo_08_trigger_rules.py) |
-| 9 | Динамічні задачі | [demo_09_dynamic_tasks.py](dags/demo_09_dynamic_tasks.py) |
-| 10 | Групи задач | [demo_10_task_groups.py](dags/demo_10_task_groups.py) |
-| 11 | Сенсори | [demo_11_sensor.py](dags/demo_11_sensor.py) |
-| 12 | Розклад і catchup | [demo_12_schedule.py](dags/demo_12_schedule.py) |
-| 13 | Variables | [demo_13_variables.py](dags/demo_13_variables.py) |
-| 14 | Connections і Postgres | [demo_14_postgres.py](dags/demo_14_postgres.py) |
-| 15 | Assets — запуск за даними | [demo_15_assets.py](dags/demo_15_assets.py) |
+Конспект кожного демо видно і в інтерфейсі Airflow: відкрийте DAG і вкладку **Docs**.
 
-Теорія до кожного демо — у [docs/README.md](docs/README.md).
+| № | Тема | DAG | Конспект |
+|---|---|---|---|
+| 1 | Базовий DAG і TaskFlow | [demo_01_basics.py](dags/demo_01_basics/demo_01_basics.py) | [README.md](dags/demo_01_basics/README.md) |
+| 2 | Класичні оператори | [demo_02_operators.py](dags/demo_02_operators/demo_02_operators.py) | [README.md](dags/demo_02_operators/README.md) |
+| 3 | Форма графа | [demo_03_dependencies.py](dags/demo_03_dependencies/demo_03_dependencies.py) | [README.md](dags/demo_03_dependencies/README.md) |
+| 4 | XCom — обмін даними | [demo_04_xcom.py](dags/demo_04_xcom/demo_04_xcom.py) | [README.md](dags/demo_04_xcom/README.md) |
+| 5 | Контекст, дати, шаблони | [demo_05_context.py](dags/demo_05_context/demo_05_context.py) | [README.md](dags/demo_05_context/README.md) |
+| 6 | Розгалуження | [demo_06_branching.py](dags/demo_06_branching/demo_06_branching.py) | [README.md](dags/demo_06_branching/README.md) |
+| 7 | Повтори при помилці | [demo_07_retries.py](dags/demo_07_retries/demo_07_retries.py) | [README.md](dags/demo_07_retries/README.md) |
+| 8 | Trigger rules | [demo_08_trigger_rules.py](dags/demo_08_trigger_rules/demo_08_trigger_rules.py) | [README.md](dags/demo_08_trigger_rules/README.md) |
+| 9 | Динамічні задачі | [demo_09_dynamic_tasks.py](dags/demo_09_dynamic_tasks/demo_09_dynamic_tasks.py) | [README.md](dags/demo_09_dynamic_tasks/README.md) |
+| 10 | Групи задач | [demo_10_task_groups.py](dags/demo_10_task_groups/demo_10_task_groups.py) | [README.md](dags/demo_10_task_groups/README.md) |
+| 11 | Сенсори | [demo_11_sensor.py](dags/demo_11_sensor/demo_11_sensor.py) | [README.md](dags/demo_11_sensor/README.md) |
+| 12 | Розклад і catchup | [demo_12_schedule.py](dags/demo_12_schedule/demo_12_schedule.py) | [README.md](dags/demo_12_schedule/README.md) |
+| 13 | Variables | [demo_13_variables.py](dags/demo_13_variables/demo_13_variables.py) | [README.md](dags/demo_13_variables/README.md) |
+| 14 | Connections і Postgres | [demo_14_postgres.py](dags/demo_14_postgres/demo_14_postgres.py) | [README.md](dags/demo_14_postgres/README.md) |
+| 15 | Assets — запуск за даними | [demo_15_assets.py](dags/demo_15_assets/demo_15_assets.py) | [README.md](dags/demo_15_assets/README.md) |
+
+Усі параметри в конспектах звірені саме з Airflow 3.3.1: код із туторіалів для Airflow 2 у більшості випадків тут не запуститься, різниця описана нижче.
+
+## Наскрізні теми
+
+Деякі речі згадуються в кількох конспектах — ось де про них написано докладно:
+
+| Тема | Де шукати |
+|---|---|
+| Повний список параметрів `@dag` | [демо 1](dags/demo_01_basics/README.md#довідка-параметри-dag) |
+| Повний список параметрів `@task` | [демо 1](dags/demo_01_basics/README.md#довідка-параметри-task) |
+| Ключі контексту запуску | [демо 5](dags/demo_05_context/README.md) |
+| Jinja-шаблони | [демо 5](dags/demo_05_context/README.md) |
+| Усі trigger rules | [демо 8](dags/demo_08_trigger_rules/README.md) |
+| Ідемпотентність | [демо 7](dags/demo_07_retries/README.md), [демо 14](dags/demo_14_postgres/README.md) |
+| Обмеження паралелізму | [демо 3](dags/demo_03_dependencies/README.md) |
+| Зв'язок між DAG-ами | [демо 15](dags/demo_15_assets/README.md), [демо 11](dags/demo_11_sensor/README.md) |
+
+## Головні відмінності Airflow 3 від Airflow 2
+
+Найчастіша причина, чому код з інтернету не працює:
+
+| Airflow 2 | Airflow 3 |
+|---|---|
+| `from airflow.decorators import dag, task` | `from airflow.sdk import dag, task` |
+| `from airflow.models import Variable` | `from airflow.sdk import Variable` |
+| `schedule_interval=...` | `schedule=...` |
+| `Variable.get(k, default_var=...)` | `Variable.get(k, default=...)` |
+| `from airflow.operators.bash import BashOperator` | `from airflow.providers.standard.operators.bash import BashOperator` |
+| `PostgresOperator` | `SQLExecuteQueryOperator` |
+| `execution_date` | `logical_date` |
+| `Dataset` | `Asset` |
+| `provide_context=True` | не потрібен, контекст підставляється сам |
 
 ## Розгортання
 
@@ -75,7 +112,7 @@ docker compose logs -f
 
 ## Куди класти DAG-и
 
-Усі файли DAG-ів — у папку `dags` поруч із `docker-compose.yaml`. Вона підключена всередину контейнера, тому:
+Усі файли DAG-ів — у папку `dags` поруч із `docker-compose.yaml`. Airflow сканує її рекурсивно, тому підпапки можна робити як завгодно, а файли `.md`, `.sql` чи `.json` поруч із DAG-ом він просто ігнорує. Папка підключена всередину контейнера, тому:
 
 - новий файл з'явиться в інтерфейсі сам — папка пересканується раз на 5 хвилин
 - зміни в наявному файлі підхоплюються так само, перезапускати контейнер не треба
