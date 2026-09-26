@@ -77,6 +77,10 @@
 
 Що всередині compose-файлу і як його правити — у [docker-compose.md](docker-compose.md).
 
+## Airflow у хмарі і робота через Pull Request
+
+Крім локального запуску, репозиторій розгортається на Railway одним сервісом (файли `Dockerfile`, `railway.toml`, `railway-entrypoint.sh`). Студенти додають свої DAG-и у `dags/students/<github_логін>/` через гілку й Pull Request; після апруву і merge у `main` Airflow оновлюється сам. Покрокова інструкція для студентів — [docs/STUDENTS.md](docs/STUDENTS.md), шаблон DAG-а — [templates/student_dag.py](templates/student_dag.py).
+
 ## Що потрібно
 
 - Docker Desktop (Windows, macOS) або Docker Engine (Linux)
