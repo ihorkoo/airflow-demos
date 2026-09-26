@@ -1,0 +1,33 @@
+name: check-dags
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Студент змінює тільки свою папку
+        env:
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          BASE_REF: origin/${{ github.base_ref }}
+          OWNER: ihorkoo
+        run: scripts/check_pr_paths.sh
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # провайдер Postgres є в офіційному образі Airflow, тож потрібен і тут (демо 14)
+      - name: Встановити Airflow 3.3.1
+        run: |
+          pip install "apache-airflow==3.3.1" apache-airflow-providers-postgres \
+            --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-3.3.1/constraints-3.12.txt"
+
+      - name: Усі DAG-и імпортуються
+        run: python scripts/check_dags.py
