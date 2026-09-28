@@ -1,6 +1,6 @@
 # Airflow 3 — навчальні демо
 
-Невеликий навчальний репозиторій з Apache Airflow **3.3.1**: 16 коротких демо від архітектури і «hello world» до Assets, до кожного — конспект українською з поясненням механізму, довідкою параметрів і типовими помилками.
+Невеликий навчальний репозиторій з Apache Airflow **3.3.1**: 17 коротких демо від архітектури і «hello world» до Assets і готового пайплайна DWH, до кожного — конспект українською з поясненням механізму, довідкою параметрів і типовими помилками.
 
 Середовище мінімальне: один Docker-контейнер, без Celery і Redis.
 
@@ -10,7 +10,7 @@
 .
 ├── docker-compose.yaml        # один контейнер Airflow (standalone)
 ├── docker-compose.md          # розбір compose-файлу рядок за рядком
-└── dags/                      # 16 демо, по одній папці на тему
+└── dags/                      # 17 демо, по одній папці на тему
     ├── demo_00_architecture/  # з чого складається Airflow 3 — читати першим
     ├── demo_01_basics/
     │   ├── demo_01_basics.py  # сам DAG
@@ -39,6 +39,7 @@
 | 13 | Variables | [demo_13_variables.py](dags/demo_13_variables/demo_13_variables.py) | [README.md](dags/demo_13_variables/README.md) |
 | 14 | Connections і Postgres | [demo_14_postgres.py](dags/demo_14_postgres/demo_14_postgres.py) | [README.md](dags/demo_14_postgres/README.md) |
 | 15 | Assets — запуск за даними | [demo_15_assets.py](dags/demo_15_assets/demo_15_assets.py) | [README.md](dags/demo_15_assets/README.md) |
+| 16 | Моделювання DWH — пайплайн цілком | [demo_16_dwh_modeling.py](dags/demo_16_dwh_modeling/demo_16_dwh_modeling.py) | [README.md](dags/demo_16_dwh_modeling/README.md) |
 
 Усі параметри в конспектах звірені саме з Airflow 3.3.1: код із туторіалів для Airflow 2 у більшості випадків тут не запуститься, різниця описана нижче.
 
