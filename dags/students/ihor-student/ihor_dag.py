@@ -15,7 +15,7 @@ README = (Path(__file__).parent / "README.md").read_text(encoding="utf-8")
 
 
 @dag(
-    dag_id="demo_01_basics",
+    dag_id="demo_01_basics_v2",
     doc_md=README,
     start_date=datetime(2025, 1, 1),  # з якої дати Airflow рахує запуски
     schedule=None,                    # None = запускається тільки вручну
@@ -29,7 +29,7 @@ def demo_01_basics():
     @task
     def extract() -> list[int]:
         print("читаємо дані з джерела")
-        return [10, 20, 30, 40]
+        return [10, 20, 30, 40, 50]
 
     @task
     def transform(numbers: list[int]) -> int:
