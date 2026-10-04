@@ -26,8 +26,9 @@ export AIRFLOW__API__PORT="${PORT:-8080}"
 : "${AIRFLOW_ADMIN_PASSWORD:?Задайте змінну AIRFLOW_ADMIN_PASSWORD у Railway (Variables)}"
 : "${AIRFLOW_STUDENT_PASSWORD:?Задайте змінну AIRFLOW_STUDENT_PASSWORD у Railway (Variables)}"
 
-# admin — викладач, student — спільний вхід для студентів (може запускати DAG-и)
-export AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_USERS="admin:admin,student:user"
+# admin — викладач, student — спільний вхід для студентів (роль op: запуск DAG-ів
+# і розділ Admin — Connections, Variables, Pools)
+export AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_USERS="admin:admin,student:op"
 export AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_PASSWORDS_FILE="$AIRFLOW_HOME/simple_auth_manager_passwords.json"
 
 python3 - <<'PY'
