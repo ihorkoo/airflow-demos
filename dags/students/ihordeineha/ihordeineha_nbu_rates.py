@@ -43,3 +43,9 @@ def nbu_rates():
 
 
 nbu_rates()
+
+
+def rates():
+    pass
+rates()
+
