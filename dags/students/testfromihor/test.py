@@ -32,7 +32,7 @@ def fetch_rates(day: date | None = None) -> list[dict]:
 
 
 @dag(
-    dag_id=f"{STUDENT}_nbu_rates",
+    dag_id=f"{STUDENT}_nbu_rates_test",
     start_date=datetime(2025, 1, 1),
     schedule=None,
     catchup=False,
