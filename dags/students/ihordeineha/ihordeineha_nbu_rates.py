@@ -39,13 +39,64 @@ def fetch_rates(day: date | None = None) -> list[dict]:
     tags=["student", STUDENT],
 )
 def nbu_rates():
-    pass
+    @task.branch
+    def choose_mode() -> str:
+        mode = Variable.get("nbu_load_mode", default="today")
+        print(f"режим: {mode}")
+        return "load_period" if mode == "period" else "load_today"
 
+
+    @task
+    def load_today() -> list[dict]:
+        rows = fetch_rates()
+        print(f"сьогодні: {len(rows)} рядків")
+        return rows
+
+    @task
+    def load_period() -> list[dict]:
+        start = date.fromisoformat(Variable.get("nbu_period_start"))
+        end = date.fromisoformat(Variable.get("nbu_period_end"))
+        rows = []
+        day = start
+        while day <= end:
+            rows += fetch_rates(day)
+            day += timedelta(days=1)
+        print(f"період {start} — {end}: {len(rows)} рядків")
+        return rows
+
+    @task(trigger_rule="none_failed_min_one_success")
+    def save_report(today_rows: list[dict] | None, period_rows: list[dict] | None) -> None:
+        import pandas as pd
+        from azure.storage.blob import ContainerClient
+
+        rows = today_rows or period_rows or []
+        if not rows:
+            print("даних немає — нічого не записуємо")
+            return
+        df = pd.DataFrame(rows).sort_values(["rate_date", "currency"])
+
+        # назва файлу: одна дата — за день, дві — за період
+        first, last = df["rate_date"].min(), df["rate_date"].max()
+        suffix = first if first == last else f"{first}_{last}"
+        blob_name = f"{PREFIX}/nbu_rates/nbu_rates_{suffix}.csv"
+
+        # SAS-посилання на контейнер — секрет, тому лежить у Connection
+        sas_url = BaseHook.get_connection("blob_lake").password
+        lake = ContainerClient.from_container_url(sas_url)
+        # overwrite=True: повторний запуск за ті самі дати перезаписує файл
+        lake.upload_blob(name=blob_name, data=df.to_csv(index=False).encode("utf-8"), overwrite=True)
+        print(f"записано {blob_name}: {len(df)} рядків")
+
+        for blob in lake.list_blobs(name_starts_with=f"{PREFIX}/nbu_rates/"):
+            print(f"  {blob.name} {blob.size} байт")
+            
+    mode = choose_mode()
+    today_rows = load_today()
+    period_rows = load_period()
+    mode >> [today_rows, period_rows]
+    save_report(today_rows, period_rows)
 
 nbu_rates()
 
 
-def rates():
-    pass
-rates()
 
