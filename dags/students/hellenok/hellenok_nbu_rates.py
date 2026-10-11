@@ -1,6 +1,7 @@
 from datetime import date, datetime, timedelta
 from airflow.sdk import BaseHook, Variable, dag, task
 
+
 # 1. Константы
 STUDENT = "hellenok"
 PREFIX = "olkhovets_olena"
