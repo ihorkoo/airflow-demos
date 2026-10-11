@@ -116,7 +116,7 @@ def hellenok_nbu_rates():
         for blob in container_client.list_blobs(
             name_starts_with=f"{PREFIX}/nbu_rates/"
         ):
-            print(f"  {blob.name} {blob.size} байт")
+            print(f"  {blob.name} {blob.size} байт", flush=True)
 
     # Порядок выполнения задач внутри DAG
     mode_choice = choose_mode()
