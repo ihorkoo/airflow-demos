@@ -112,6 +112,11 @@ def hellenok_nbu_rates():
             name=blob_path, data=csv_data, overwrite=True
         )
         print(f"записано {file_name}: {len(df)} рядків")
+        
+        for blob in container_client.list_blobs(
+            name_starts_with=f"{PREFIX}/nbu_rates/"
+        ):
+            print(f"  {blob.name} {blob.size} байт")
 
     # Порядок выполнения задач внутри DAG
     mode_choice = choose_mode()
