@@ -125,6 +125,7 @@ def hellenok_nbu_rates():
 
     mode_choice >> [rates_today, rates_period]
     save_report(rates_today, rates_period)
+    
 
 hellenok_nbu_rates()
 
